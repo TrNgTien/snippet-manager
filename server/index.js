@@ -1,34 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const app = express();
 const dotenv = require("dotenv");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
-
 dotenv.config();
 
-// setup express server
-
-const app = express();
-
+const snippetRoutes = require("./routers/snippetRouter.js");
 app.use(express.json());
-app.use(
-  cors({
-    origin: ["http://localhost:3000", "https://snippetmanager.netlify.app"],
-    credentials: true,
-  })
-);
-app.use(cookieParser());
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
-
-// set up routers
-
-app.use("/snippet", require("./routers/snippetRouter"));
-app.use("/auth", require("./routers/userRouter"));
-
-// connect to mongoDB
-
+app.listen(5000, () => console.log("Welcome to the app snippet"));
+// Connect to the database
 mongoose.connect(
   process.env.MDB_CONNECT_STRING,
   {
@@ -36,7 +16,11 @@ mongoose.connect(
     useUnifiedTopology: true,
   },
   (err) => {
-    if (err) return console.error(err);
-    console.log("Connected to MongoDB");
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Connected to the database");
+    }
   }
 );
+app.use("/snippet", snippetRoutes);
