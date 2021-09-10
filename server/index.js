@@ -1,15 +1,22 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const app = express();
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const app = express();
 dotenv.config();
 
-const snippetRoutes = require("./routers/snippetRouter.js");
+const snippetRoutes = require("./routers/snippetRouter");
+const userRoutes = require("./routers/userRouter");
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:3000" }));
-
+app.use(cookieParser());
 app.listen(5000, () => console.log("Welcome to the app snippet"));
+
+//Routers
+app.use("/auth", userRoutes);
+app.use("/snippets", snippetRoutes);
+
 // Connect to the database
 mongoose.connect(
   process.env.MDB_CONNECT_STRING,
@@ -25,4 +32,3 @@ mongoose.connect(
     }
   }
 );
-app.use("/snippets", snippetRoutes);
