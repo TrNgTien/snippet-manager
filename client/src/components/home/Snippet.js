@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import "./styles/Snippet.scss";
 
 export default function Snippet({ snippet, getSnippets, editSnippet }) {
   const { title, description, code, _id } = snippet;
@@ -9,15 +10,15 @@ export default function Snippet({ snippet, getSnippets, editSnippet }) {
   };
   return (
     <div className="snippet">
-      {title && <h2>{title}</h2>}
-      {description && <p>{description}</p>}
+      {title && <h2 className="title">{title}</h2>}
+      {description && <p className="description">{description}</p>}
       {code && (
-        <pre>
+        <pre className="code">
           <code>{code}</code>
         </pre>
       )}
-      <button onClick={() => editSnippet(snippet)}>Edit</button>
-      <button onClick={deleteSnippet}>Delete</button>
+      <button className="btn-edit" onClick={() => editSnippet(snippet)}>Edit</button>
+      <button className="btn-delete" onClick={deleteSnippet}>Delete</button>
     </div>
   );
 }

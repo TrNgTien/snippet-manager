@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "./styles/SnippetEditor.scss";
 
 export default function SnippetEditor(props) {
   const { setSnippetEditorOpen, getSnippets, editSnippetData } = props;
@@ -33,10 +34,10 @@ export default function SnippetEditor(props) {
     closeEditor();
   };
   const closeEditor = () => {
-    setSnippetEditorOpen(false);
     setEditorTitle("");
     setEditorCode("");
     setEditorDescription("");
+    setSnippetEditorOpen(false);
   };
   return (
     <div className="snippet-editor">
@@ -67,8 +68,8 @@ export default function SnippetEditor(props) {
           type="text"
           name="code"
         />
-        <button type="submit">Save Snippet</button>
-        <button type="button" onClick={closeEditor}>
+        <button className="btn-save" type="submit">Save Snippet</button>
+        <button className="btn-close" type="button" onClick={closeEditor}>
           Cancel
         </button>
       </form>

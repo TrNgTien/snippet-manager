@@ -1,7 +1,11 @@
 import React from "react";
 import Router from "./Router.js";
-import "./style/index.scss";
+import "./styles/index.scss";
 function App() {
-  return <Router />;
+  return (
+    <div className="container">
+      <Router />
+    </div>
+  );
 }
 export default App;

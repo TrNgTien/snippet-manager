@@ -1,0 +1,11 @@
+.navbar {
+  margin-bottom: 2rem;
+  display: flex;
+  color: var(--text-light-color);
+  align-items: center;
+
+  a {
+    color: unset;
+    margin-right: 2rem;
+  }
+}
