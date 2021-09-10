@@ -1,0 +1,42 @@
+@import "../../../styles/mixins.scss";
+.snippet-editor {
+  @include card();
+  label,
+  input,
+  textarea {
+    display: block;
+  }
+
+  label {
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  input,
+  textarea {
+    margin-bottom: 1rem;
+    padding: 0.3rem 0.5rem;
+    border-radius: 5px;
+    background: var(--dark-color);
+    width: 100%;
+  }
+
+  textarea {
+    height: 300px;
+    resize: none;
+  }
+  .btn-close,
+  .btn-save {
+    @include btn();
+    margin-right: 1rem;
+  }
+  .btn-save {
+    background: var(--primary-color);
+    color: var(--text-light-color);
+  }
+  .btn-close {
+    background: var(--danger-color);
+    color: var(--text-light-color);
+  }
+}

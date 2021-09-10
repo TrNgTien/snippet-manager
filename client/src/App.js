@@ -1,19 +1,11 @@
-import Axios from "axios";
 import React from "react";
-import { UserContextProvider } from "./context/UserContext";
-import Router from "./Router";
-import "./style/index.scss";
-
-Axios.defaults.withCredentials = true;
-
+import Router from "./Router.js";
+import "./styles/index.scss";
 function App() {
   return (
-    <UserContextProvider>
-      <div className="container">
-        <Router />
-      </div>
-    </UserContextProvider>
+    <div className="container">
+      <Router />
+    </div>
   );
 }
-
 export default App;

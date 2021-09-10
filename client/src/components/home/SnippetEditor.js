@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Axios from "axios";
-import "./SnippetEditor.scss";
-import ErrorMessage from "../misc/ErrorMessage";
-import domain from "../../util/domain";
+import axios from "axios";
+import "./styles/SnippetEditor.scss";
 
-function SnippetEditor({ getSnippets, setSnippetEditorOpen, editSnippetData }) {
+export default function SnippetEditor(props) {
+  const { setSnippetEditorOpen, getSnippets, editSnippetData } = props;
   const [editorTitle, setEditorTitle] = useState("");
   const [editorDescription, setEditorDescription] = useState("");
   const [editorCode, setEditorCode] = useState("");
-  const [errorMessage, setErrorMessage] = useState(null);
-
   useEffect(() => {
     if (editSnippetData) {
       setEditorTitle(editSnippetData.title ? editSnippetData.title : "");
@@ -19,84 +16,63 @@ function SnippetEditor({ getSnippets, setSnippetEditorOpen, editSnippetData }) {
       setEditorCode(editSnippetData.code ? editSnippetData.code : "");
     }
   }, [editSnippetData]);
-
-  async function saveSnippet(e) {
+  const saveSnippet = async (e) => {
     e.preventDefault();
-
     const snippetData = {
       title: editorTitle ? editorTitle : undefined,
       description: editorDescription ? editorDescription : undefined,
       code: editorCode ? editorCode : undefined,
     };
-
-    try {
-      if (!editSnippetData) await Axios.post(`${domain}/snippet/`, snippetData);
-      else
-        await Axios.put(
-          `${domain}/snippet/${editSnippetData._id}`,
-          snippetData
-        );
-    } catch (err) {
-      if (err.response) {
-        if (err.response.data.errorMessage) {
-          setErrorMessage(err.response.data.errorMessage);
-        }
-      }
-      return;
-    }
-
+    if (!editSnippetData)
+      await axios.post("http://localhost:5000/snippets/", snippetData);
+    else
+      await axios.put(
+        `http://localhost:5000/snippets/${editSnippetData._id}`,
+        snippetData
+      );
     getSnippets();
     closeEditor();
-  }
-
-  function closeEditor() {
-    setSnippetEditorOpen(false);
+  };
+  const closeEditor = () => {
+    setEditorTitle("");
     setEditorCode("");
     setEditorDescription("");
-    setEditorTitle("");
-  }
-
+    setSnippetEditorOpen(false);
+  };
   return (
     <div className="snippet-editor">
-      {errorMessage && (
-        <ErrorMessage
-          message={errorMessage}
-          clear={() => setErrorMessage(null)}
-        />
-      )}
-      <form className="form" onSubmit={saveSnippet}>
+      <form onSubmit={(e) => saveSnippet(e)}>
         <label htmlFor="editor-title">Title</label>
         <input
           id="editor-title"
-          type="text"
-          value={editorTitle}
           onChange={(e) => setEditorTitle(e.target.value)}
+          value={editorTitle}
+          type="text"
+          name="title"
         />
 
         <label htmlFor="editor-description">Description</label>
         <input
           id="editor-description"
-          type="text"
-          value={editorDescription}
           onChange={(e) => setEditorDescription(e.target.value)}
+          value={editorDescription}
+          type="text"
+          name="description"
         />
 
         <label htmlFor="editor-code">Code</label>
         <textarea
           id="editor-code"
-          value={editorCode}
           onChange={(e) => setEditorCode(e.target.value)}
+          value={editorCode}
+          type="text"
+          name="code"
         />
-
-        <button className="btn-save" type="submit">
-          Save
-        </button>
-        <button className="btn-cancel" type="button" onClick={closeEditor}>
+        <button className="btn-save" type="submit">Save Snippet</button>
+        <button className="btn-close" type="button" onClick={closeEditor}>
           Cancel
         </button>
       </form>
     </div>
   );
 }
-
-export default SnippetEditor;
