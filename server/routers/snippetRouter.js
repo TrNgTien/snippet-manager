@@ -1,15 +1,15 @@
 const router = require("express").Router();
 const Snippet = require("../models/snippetModel");
-
-router.get("/", async (req, res) => {
+const auth = require("../middleware/auth");
+router.get("/", auth, async (req, res) => {
   try {
-    const snippets = await Snippet.find();
+    const snippets = await Snippet.find({ user: req.user });
     res.json(snippets);
   } catch (err) {
     res.status(500).send();
   }
 });
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
     const { title, description, code } = req.body;
     if (!title || !code) {
@@ -17,7 +17,12 @@ router.post("/", async (req, res) => {
         error: "Please provide title and your codes snipper!",
       });
     } else {
-      const newSnippet = new Snippet({ title, description, code });
+      const newSnippet = new Snippet({
+        title,
+        description,
+        code,
+        user: req.user,
+      });
       const savedSnippet = await newSnippet.save();
       return res.status(200).send(savedSnippet);
     }
@@ -25,7 +30,7 @@ router.post("/", async (req, res) => {
     res.status(500).send();
   }
 });
-router.put("/:id", async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
   try {
     const { title, description, code } = req.body;
     const snippetId = req.params.id;
@@ -42,25 +47,27 @@ router.put("/:id", async (req, res) => {
       });
     } else {
       const originalSnippet = await Snippet.findById(snippetId);
-      if (!originalSnippet) {
+      if (!originalSnippet)
         return res.status(400).json({
           error:
             "No snippet with this id was found . Please contact the devloper.",
         });
-      } else {
-        originalSnippet.title = title;
-        originalSnippet.description = description;
-        originalSnippet.code = code;
-        const savedSnippet = await originalSnippet.save();
-        res.json(savedSnippet);
-      }
+
+      if (originalSnippet.user.toString() !== req.user.id)
+        return res.status(401).json({ error: "Unauthorized" });
+
+      originalSnippet.title = title;
+      originalSnippet.description = description;
+      originalSnippet.code = code;
+      const savedSnippet = await originalSnippet.save();
+      res.json(savedSnippet);
     }
   } catch (err) {
     res.status(500).send();
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
     const snippetId = req.params.id;
 
@@ -71,15 +78,17 @@ router.delete("/:id", async (req, res) => {
       });
     } else {
       const existingSnippet = await Snippet.findById(snippetId);
-      if (!existingSnippet) {
+      if (!existingSnippet)
         return res.status(400).json({
           error:
             "No snippet with this id was found . Please contact the devloper.",
         });
-      } else {
-        await existingSnippet.delete();
-        res.json(existingSnippet);
-      }
+
+      if (existingSnippet.user.toString() !== req.user.id)
+        return res.status(401).json({ error: "Unauthorized" });
+
+      await existingSnippet.delete();
+      res.json(existingSnippet);
     }
   } catch (err) {
     res.status(500).send();
