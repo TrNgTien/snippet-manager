@@ -1,27 +1,22 @@
-import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Login from "./components/auth/Login";
-import Register from "./components/auth/Register";
-import Home from "./components/home/Home";
-import Navbar from "./components/misc/Navbar";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Home from "./components/home/Home.js";
+import NavBar from "./components/misc/NavBar.js";
 
-function Router() {
+export default function router() {
   return (
     <BrowserRouter>
-      <Navbar />
+      <NavBar />
       <Switch>
         <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/login">
-          <Login />
+        <Route exact path="/login">
+          Login
         </Route>
-        <Route path="/register">
-          <Register />
+        <Route exact path="/register">
+          Register
         </Route>
       </Switch>
     </BrowserRouter>
   );
 }
-
-export default Router;

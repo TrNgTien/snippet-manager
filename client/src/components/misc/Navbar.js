@@ -1,37 +1,18 @@
-import Axios from "axios";
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import UserContext from "../../context/UserContext";
-import domain from "../../util/domain";
-import "./Navbar.scss";
-
-function Navbar() {
-  const { user, getUser } = useContext(UserContext);
-
-  async function logOut() {
-    await Axios.get(`${domain}/auth/logOut`);
-    await getUser();
-  }
-
+function NavBar() {
   return (
-    <div className="navbar">
+    <div className="nav-bar">
       <Link to="/">
-        <h1 className="title">Snippet manager</h1>
+        <h1>Snippet Manager</h1>
       </Link>
-      {user === null ? (
-        <>
-          <Link to="/login">Log in</Link>
-          <Link to="/register">Register</Link>
-        </>
-      ) : (
-        user && (
-          <button className="btn-logout" onClick={logOut}>
-            Log out
-          </button>
-        )
-      )}
+      <Link to="/login">
+        <h1>Login</h1>
+      </Link>
+      <Link to="/register">
+        <h1>Register</h1>
+      </Link>
     </div>
   );
 }
-
-export default Navbar;
+export default NavBar;
