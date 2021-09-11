@@ -1,4 +1,4 @@
 export default process.env.NODE_ENV === "development"
-  ? "${environment}"
+  ? "http://localhost:5000"
   : process.env.NODE_ENV === "production" &&
     "https://code-snippet-server.herokuapp.com/";
