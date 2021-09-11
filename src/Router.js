@@ -1,4 +1,6 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Login from "./components/auth/Login.js";
+import Register from "./components/auth/Register.js";
 import Home from "./components/home/Home.js";
 import NavBar from "./components/misc/NavBar.js";
 
@@ -11,10 +13,10 @@ export default function router() {
           <Home />
         </Route>
         <Route exact path="/login">
-          Login
+          <Login />
         </Route>
         <Route exact path="/register">
-          Register
+          <Register />
         </Route>
       </Switch>
     </BrowserRouter>

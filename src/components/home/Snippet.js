@@ -5,8 +5,10 @@ import "./styles/Snippet.scss";
 export default function Snippet({ snippet, getSnippets, editSnippet }) {
   const { title, description, code, _id } = snippet;
   const deleteSnippet = async () => {
-    await axios.delete(`http://localhost:5000/snippets/${_id}`);
-    getSnippets();
+    if (window.confirm("Are you sure you want to delete this snippet?")) {
+      await axios.delete(`http://localhost:5000/snippets/${_id}`);
+      getSnippets();
+    }
   };
   return (
     <div className="snippet">
@@ -17,8 +19,12 @@ export default function Snippet({ snippet, getSnippets, editSnippet }) {
           <code>{code}</code>
         </pre>
       )}
-      <button className="btn-edit" onClick={() => editSnippet(snippet)}>Edit</button>
-      <button className="btn-delete" onClick={deleteSnippet}>Delete</button>
+      <button className="btn-edit" onClick={() => editSnippet(snippet)}>
+        Edit
+      </button>
+      <button className="btn-delete" onClick={deleteSnippet}>
+        Delete
+      </button>
     </div>
   );
 }
