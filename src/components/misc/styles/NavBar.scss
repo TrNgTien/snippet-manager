@@ -1,10 +1,15 @@
+@import "../../../styles/mixins.scss";
 .navbar {
   margin-bottom: 2rem;
   display: flex;
   color: var(--text-light-color);
   align-items: center;
 
-  a {
+  .btn-logout {
+    @include link();
+  }
+  a,
+  .btn-logout {
     color: unset;
     margin-right: 2rem;
   }

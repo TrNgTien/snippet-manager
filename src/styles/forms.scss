@@ -1,6 +1,4 @@
-@import "../../../styles/mixins.scss";
-.snippet-editor {
-  @include card();
+.form {
   label,
   input,
   textarea {
@@ -25,18 +23,5 @@
   textarea {
     height: 300px;
     resize: none;
-  }
-  .btn-close,
-  .btn-save {
-    @include btn();
-    margin-right: 1rem;
-  }
-  .btn-save {
-    background: var(--primary-color);
-    color: var(--text-light-color);
-  }
-  .btn-close {
-    background: var(--danger-color);
-    color: var(--text-light-color);
   }
 }
