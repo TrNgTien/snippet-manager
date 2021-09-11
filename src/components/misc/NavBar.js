@@ -2,12 +2,13 @@ import axios from "axios";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../../context/UserContext";
+import environment from "../../util/environment.js";
 import "./styles/NavBar.scss";
 function NavBar() {
   const { user, getUser } = useContext(UserContext);
 
   const logOut = async () => {
-    await axios.get("http://localhost:5000/auth/logOut");
+    await axios.get(`${environment}/auth/logOut`);
     await getUser();
   };
   return (

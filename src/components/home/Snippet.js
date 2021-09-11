@@ -1,12 +1,13 @@
 import React from "react";
 import axios from "axios";
 import "./styles/Snippet.scss";
+import environment from "../../util/environment.js";
 
 export default function Snippet({ snippet, getSnippets, editSnippet }) {
   const { title, description, code, _id } = snippet;
   const deleteSnippet = async () => {
     if (window.confirm("Are you sure you want to delete this snippet?")) {
-      await axios.delete(`http://localhost:5000/snippets/${_id}`);
+      await axios.delete(`${environment}/snippets/${_id}`);
       getSnippets();
     }
   };

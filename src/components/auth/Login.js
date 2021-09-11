@@ -4,6 +4,7 @@ import UserContext from "../../context/UserContext";
 import axios from "axios";
 import "./styles/AuthForm.scss";
 import ErrorMessage from "../misc/ErrorMessage.js";
+import environment from "../../util/environment.js";
 
 export default function Login() {
   const [formEmail, setFormEmail] = useState("");
@@ -19,7 +20,7 @@ export default function Login() {
       password: formPassword,
     };
     try {
-      await axios.post("http://localhost:5000/auth/login", loginData);
+      await axios.post(`${environment}/auth/login`, loginData);
     } catch (e) {
       if (e.response) {
         if (e.response.data.error) {
