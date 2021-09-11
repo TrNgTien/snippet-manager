@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./styles/SnippetEditor.scss";
 import ErrorMessage from "../misc/ErrorMessage.js";
+import environment from "../../util/environment.js";
 
 export default function SnippetEditor(props) {
   const { setSnippetEditorOpen, getSnippets, editSnippetData } = props;
@@ -28,10 +29,10 @@ export default function SnippetEditor(props) {
     };
     try{
       if (!editSnippetData)
-      await axios.post("http://localhost:5000/snippets/", snippetData);
+      await axios.post(`${environment}/snippets/`, snippetData);
     else
       await axios.put(
-        `http://localhost:5000/snippets/${editSnippetData._id}`,
+        `${environment}/snippets/${editSnippetData._id}`,
         snippetData
       );
     }catch (e) {

@@ -5,6 +5,7 @@ import UserContext from "../../context/UserContext";
 
 import "./styles/AuthForm.scss";
 import ErrorMessage from "../misc/ErrorMessage.js";
+import environment from "../../util/environment.js";
 
 export default function Register() {
   const [formEmail, setFormEmail] = useState("");
@@ -22,7 +23,7 @@ export default function Register() {
       passwordVerify: formPasswordVerify,
     };
     try {
-      await axios.post("http://localhost:5000/auth/", registerData);
+      await axios.post(`${environment}/auth/`, registerData);
     } catch (e) {
       if (e.response) {
         if (e.response.data.error) {
