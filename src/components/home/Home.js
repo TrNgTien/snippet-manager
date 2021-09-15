@@ -19,10 +19,9 @@ export default function Home() {
     else getSnippets();
   }, [user]);
   async function getSnippets() {
-    const snippetsRes = await axios
+    await axios
       .get(`${environment}/snippets/`)
       .then((res) => setSnippets(res.data));
-    return snippetsRes;
   }
   function editSnippet(snippetData) {
     setEditSnippetData(snippetData);
