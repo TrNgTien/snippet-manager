@@ -62,7 +62,7 @@ export default function Home() {
           editSnippetData={editSnippetData}
         />
       )}
-      {snippets.length > 0
+      {snippets.length !== 0
         ? renderSnippets()
         : user && (
             <h3 className="no-snippets-msg">No Snippets have been added yet</h3>
