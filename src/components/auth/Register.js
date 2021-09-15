@@ -24,6 +24,8 @@ export default function Register() {
     };
     try {
       await axios.post(`${environment}/auth/`, registerData);
+      await getUser();
+      history.push("/login");
     } catch (e) {
       if (e.response) {
         if (e.response.data.error) {
@@ -32,8 +34,6 @@ export default function Register() {
       }
       return;
     }
-    await getUser();
-    history.push("/");
   };
   return (
     <div className="auth-form">

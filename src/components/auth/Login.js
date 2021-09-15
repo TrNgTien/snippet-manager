@@ -21,6 +21,8 @@ export default function Login() {
     };
     try {
       await axios.post(`${environment}/auth/login`, loginData);
+      await getUser();
+      history.push("/");
     } catch (e) {
       if (e.response) {
         if (e.response.data.error) {
@@ -29,8 +31,6 @@ export default function Login() {
       }
       return;
     }
-    await getUser();
-    history.push("/");
   };
   return (
     <div className="auth-form">
